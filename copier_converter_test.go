@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jinzhu/copier"
+	"github.com/betterlmy/copier"
 )
 
 func TestCopyWithTypeConverters(t *testing.T) {
