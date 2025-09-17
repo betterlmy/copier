@@ -1,9 +1,10 @@
 package copier_test
 
 import (
-	"github.com/jinzhu/copier"
 	"reflect"
 	"testing"
+
+	"github.com/betterlmy/copier"
 )
 
 func TestCustomFieldName(t *testing.T) {
