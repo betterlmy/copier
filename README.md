@@ -1,8 +1,12 @@
 # Copier
 
-I am a copier, I copy everything from one to another
 
-[![test status](https://github.com/jinzhu/copier/workflows/tests/badge.svg?branch=master "test status")](https://github.com/jinzhu/copier/actions)
+> **注意：这个仓库是从 [jinzhu/copier](https://github.com/jinzhu/copier) fork 而来的**
+
+  I am a copier, I copy everything from one to another
+
+
+[![test status](https://github.com/betterlmy/copier/workflows/tests/badge.svg?branch=master "test status")](https://github.com/betterlmy/copier/actions)
 
 ## Key Features
 
@@ -34,7 +38,11 @@ Import Copier into your application to access its copying capabilities
 import "github.com/jinzhu/copier"
 ```
 
-### Basic Copying
+import (
+	"fmt"
+	"github.com/betterlmy/copier"
+)
+
 
 ```go
 type User struct {
@@ -59,8 +67,13 @@ func (employee *Employee) Role(role string) {
 }
 
 func main() {
-	user := User{Name: "Jinzhu", Age: 18, Role: "Admin"}
-	employee := Employee{}
+	var (
+		user      = User{Name: "Betterlmy", Age: 18, Role: "Admin", Salary: 200000}
+		users     = []User{{Name: "Betterlmy", Age: 18, Role: "Admin", Salary: 100000}, {Name: "betterlmy 2", Age: 30, Role: "Dev", Salary: 60000}}
+		employee  = Employee{Salary: 150000}
+		employees = []Employee{}
+	)
+
 
 	copier.Copy(&employee, &user)
 	fmt.Printf("%#v\n", employee)
@@ -223,29 +236,42 @@ func main() {
 }
 ```
 
-### Copy Slice to Slice
+	fmt.Printf("%#v \n", employee)
+	// Employee{
+	//    Name: "Betterlmy",           // Copy from field
+	//    Age: 18,                  // Copy from field
+	//    Salary:150000,            // Copying explicitly ignored
+	//    DoubleAge: 36,            // Copy from method
+	//    EmployeeId: 0,            // Ignored
+	//    SuperRole: "Super Admin", // Copy to method
+	// }
 
-```go
-func main() {
-    users := []User{{Name: "Jinzhu", Age: 18, Role: "Admin"}, {Name: "jinzhu 2", Age: 30, Role: "Dev"}}
-    var employees []Employee
+	// Copy struct to slice
+	copier.Copy(&employees, &user)
 
-    copier.Copy(&employees, &users)
-    fmt.Printf("%#v\n", employees)
-    // Output: []Employee{{Name: "Jinzhu", Age: 18, DoubleAge: 36, SuperRole: "Super Admin"}, {Name: "jinzhu 2", Age: 30, DoubleAge: 60, SuperRole: "Super Dev"}}
-}
-```
+	fmt.Printf("%#v \n", employees)
+	// []Employee{
+	//   {Name: "Betterlmy", Age: 18, Salary:0, DoubleAge: 36, EmployeeId: 0, SuperRole: "Super Admin"}
+	// }
 
-### Copy Map to Map
+	// Copy slice to slice
+	employees = []Employee{}
+	copier.Copy(&employees, &users)
 
-```go
-func main() {
-    map1 := map[int]int{3: 6, 4: 8}
-    map2 := map[int32]int8{}
+	fmt.Printf("%#v \n", employees)
+	// []Employee{
+	//   {Name: "Betterlmy", Age: 18, Salary:0, DoubleAge: 36, EmployeeId: 0, SuperRole: "Super Admin"},
+	//   {Name: "betterlmy 2", Age: 30, Salary:0, DoubleAge: 60, EmployeeId: 0, SuperRole: "Super Dev"},
+	// }
 
-    copier.Copy(&map2, map1)
-    fmt.Printf("%#v\n", map2)
-    // Output: map[int32]int8{3:6, 4:8}
+ 	// Copy map to map
+	map1 := map[int]int{3: 6, 4: 8}
+	map2 := map[int32]int8{}
+	copier.Copy(&map2, map1)
+
+	fmt.Printf("%#v \n", map2)
+	// map[int32]int8{3:6, 4:8}
+
 }
 ```
 
@@ -332,10 +358,15 @@ You can help to make the project better, check out [http://gorm.io/contribute.ht
 
 **jinzhu**
 
-- <http://github.com/jinzhu>
-- <wosmvp@gmail.com>
-- <http://twitter.com/zhangjinzhu>
+* <http://github.com/jinzhu>
+* <wosmvp@gmail.com>
+* <http://twitter.com/zhangjinzhu>
+* 
+**betterlmy**
+
+* <http://github.com/betterlmy>
+
 
 ## License
 
-Released under the [MIT License](https://github.com/jinzhu/copier/blob/master/License).
+Released under the [MIT License](https://github.com/betterlmy/copier/blob/master/License).
